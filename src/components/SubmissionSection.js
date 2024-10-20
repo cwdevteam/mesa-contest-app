@@ -56,7 +56,7 @@ function SubmissionSection() {
 
   const testServer = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/test');
+      const response = await axios.get('http://localhost:5001/test');
       console.log(response.data.message);
     } catch (error) {
       console.error('Error testing server:', error);

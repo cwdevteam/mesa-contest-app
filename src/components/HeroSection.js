@@ -2,6 +2,7 @@
 import React from 'react';
 import logo from '../assets/logo.png'; // Adjust the path to your logo file
 import abstractBg from '../assets/abstract-bg.png'; // Adjust the path to your background image
+import cover from '../assets/cover.png'; // Adjust the path to your cover image
 
 function HeroSection() {
   return (
@@ -28,13 +29,13 @@ function HeroSection() {
       <div className="absolute top-64 left-10 bottom-24 flex">
         <div className="flex flex-col items-center justify-between h-full space-y-12">
           <div className="text-red-500 text-lg font-bold transform -rotate-90 origin-left">
-            DROP IT HERE
+            Visión
           </div>
           <div className="text-red-500 text-lg font-bold transform -rotate-90 origin-left">
-            MUSIC DEAL
+            Prerrequisitos
           </div>
           <div className="text-red-500 text-lg font-bold transform -rotate-90 origin-left">
-            CHECKLIST
+            Drop your Demo
           </div>
         </div>
       </div>
@@ -42,24 +43,24 @@ function HeroSection() {
       {/* Main Content */}
       <div className="relative text-center px-4 flex flex-col items-center">
         <div className="flex items-center">
-          {/* "Drop Your" Text */}
-          <h1 className="text-6xl font-bold text-red-500 mr-4">Drop Your</h1>
-
-          {/* "DEMO" Stacked Vertically */}
-          <div className="text-6xl font-bold text-red-500 leading-none">
-            <div>D</div>
-            <div>E</div>
-            <div>M</div>
-            <div>O</div>
+          {/* Description Text */}
+          <div className="text-white text-lg max-w-md mr-8">
+            <h1 className="text-4xl">
+              Aceleradora de música Web 3.
+            </h1>
+            <br></br>
+            <h2>
+              Aprende cómo distribuir tu música a nuevos mercados y nuevas monetizaciónes
+            </h2>
+            <br></br>
+            <h2>
+              Al 1er puesto en el concurso de canciones le garantizamos un sold out de su canción y un mercado secundario. 
+            </h2>
           </div>
+
+          {/* Center Image */}
+          <img src={cover} alt="Center" className="h-96 w-96 object-contain ml-8" />
         </div>
-        {/* Submit Button */}
-        <a
-          href="#submission"
-          className="inline-block bg-red-500 text-white px-8 py-4 rounded-full hover:bg-red-600 font-semibold text-xl mt-8"
-        >
-          Submit Your Demo
-        </a>
       </div>
     </section>
   );

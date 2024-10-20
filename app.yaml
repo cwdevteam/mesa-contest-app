@@ -1,0 +1,22 @@
+runtime: nodejs18
+
+handlers:
+  # Serve API endpoints
+  - url: /upload
+    script: auto
+
+  - url: /test
+    script: auto
+
+  # Serve static files
+  - url: /static
+    static_dir: build/static
+
+  - url: /(.*\.(js|css|png|jpg|svg|json|html))
+    static_files: build/\1
+    upload: build/.*\.(js|css|png|jpg|svg|json|html)
+
+  # Serve the React app for any other route
+  - url: /.*
+    static_files: build/index.html
+    upload: build/index.html

@@ -1,125 +1,97 @@
 // src/components/SubmissionSection.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import background from '../assets/background1.png'; // Adjust the path to your background image
+import arrowImage from '../assets/arrow.png'; // Add the path to your arrow image
+import logo from '../assets/logo.png'; // Add the path to your logo
 
 function SubmissionSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    file: null,
-  });
-  const [message, setMessage] = useState('');
+  const [file, setFile] = useState(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState(null);
 
-  const handleChange = (e) => {
-    if (e.target.name === 'file') {
-      setFormData({
-        ...formData,
-        file: e.target.files[0],
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-      });
-    }
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!formData.file) {
-      setMessage('Please upload a file.');
-      return;
-    }
-
-    const uploadData = new FormData();
-    uploadData.append('name', formData.name);
-    uploadData.append('email', formData.email);
-    uploadData.append('file', formData.file);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('name', name);
+    formData.append('email', email);
 
     try {
-      const response = await axios.post(
-        '/upload',
-        uploadData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      setMessage('Submission successful!');
+      const response = await axios.post('https://lit-atoll-20776-d2acf1580841.herokuapp.com/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('File uploaded successfully:', response.data);
     } catch (error) {
       console.error('Error uploading file:', error);
-      setMessage('Submission failed. Please try again.');
-    }
-  };
-
-  const testServer = async () => {
-    try {
-      const response = await axios.get('http://localhost:5001/test');
-      console.log(response.data.message);
-    } catch (error) {
-      console.error('Error testing server:', error);
+      setError(error.message);
     }
   };
 
   return (
-    <section id="submission" className="py-16 bg-gray-100">
-      <div className="container mx-auto px-4 max-w-lg">
-        <h2 className="text-4xl font-bold text-center mb-8">Submit Your Demo</h2>
-        <p className="mb-8 text-center">
-          Please submit the following:
-          <ul className="list-disc list-inside">
-            <li>A song file</li>
-            <li>A contract</li>
-            <li>An image</li>
-          </ul>
-        </p>
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow">
-          {message && <p className="mb-4 text-center text-red-500">{message}</p>}
-          <div className="mb-4">
-            <label className="block mb-2 font-semibold">Name</label>
-            <input
-              type="text"
-              name="name"
-              className="w-full border px-3 py-2 rounded"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2 font-semibold">Email</label>
-            <input
-              type="email"
-              name="email"
-              className="w-full border px-3 py-2 rounded"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block mb-2 font-semibold">Upload Zip File</label>
-            <input
-              type="file"
-              name="file"
-              accept=".zip"
-              className="w-full"
-              onChange={handleChange}
-              required
-            />
-          </div>
+    <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+      {/* Blue Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700"></div>
+
+      {/* Background Image */}
+      <img
+        src={background}
+        alt="Background"
+        className="absolute inset-0 w-full h-full object-cover opacity-50"
+      />
+
+      {/* Top Left Text */}
+      <div className="absolute top-8 left-8 text-white max-w-[25%]">
+        <p className="text-lg">ASEGÚRATE DE TENER LOS 3 ARCHIVOS, COMPRÍMELOS EN UN ZIP Y SÚBELOS EN 'DROP YOUR DEMO'.</p>
+        <p className="text-base mt-2">RECUERDA: A) CANCIÓN, B) PORTADA, C) SPLITS.</p>
+      </div>
+
+      {/* Center Content */}
+      <div className="flex flex-col items-center justify-center relative z-10">
+        <img src={logo} alt="Logo" className="w-32 h-32 mb-6" />
+
+        <form onSubmit={handleSubmit} className="w-full max-w-lg space-y-4 text-center">
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="w-full px-4 py-2 border border-gray-300 text-lg text-gray-700 rounded-lg"
+          />
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            className="w-full px-4 py-2 border border-gray-300 text-lg text-gray-700 rounded-lg"
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className="w-full px-4 py-2 border border-gray-300 text-lg text-gray-700 rounded-lg"
+          />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600"
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
           >
-            Submit
+            DROP YOUR DEMO
           </button>
         </form>
-        <button onClick={testServer} className="mt-4 w-full bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600">
-          Test Server
-        </button>
+
+        {error && <p className="mt-4 text-red-500">{error}</p>}
+      </div>
+
+      {/* Bottom Text and Arrow */}
+      <div className="absolute bottom-8 w-full flex items-center justify-center">
+        <p className="text-2xl font-semibold text-white">DROP YOUR DEMO ES UNA ACELERADORA MUSICAL WEB3</p>
+        <img src={arrowImage} alt="Arrow" className="w-8 h-8 ml-4" />
       </div>
     </section>
   );

@@ -1,0 +1,12 @@
+dispatch:
+  - url: "*/test"
+    service: default
+
+  - url: "*/upload"
+    service: default
+
+  - url: "*/static/*"
+    service: default
+
+  - url: "*/"
+    service: default

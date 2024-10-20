@@ -1,7 +1,7 @@
 // src/components/HeroSection.js
 import React from 'react';
 import logo from '../assets/logo.png'; // Adjust the path to your logo file
-import abstractBg from '../assets/abstract-bg.png'; // Adjust the path to your background image
+import abstractBg from '../assets/background1.png'; // Adjust the path to your background image
 import cover from '../assets/cover.png'; // Adjust the path to your cover image
 
 function HeroSection() {
@@ -44,7 +44,7 @@ function HeroSection() {
       <div className="relative text-center px-4 flex flex-col items-center">
         <div className="flex items-center">
           {/* Description Text */}
-          <div className="text-white text-lg max-w-md mr-8">
+          <div className="text-white text-lg max-w-md mr-8 text-left">
             <h1 className="text-4xl">
               Aceleradora de música Web 3.
             </h1>

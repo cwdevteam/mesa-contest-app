@@ -7,10 +7,10 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 8080;
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from http://localhost:3000
+app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from the frontend running on localhost:3000
 app.use(express.json());
 
 // Configure Multer for file uploads
@@ -27,6 +27,7 @@ const auth = new google.auth.GoogleAuth({
 
 // Test endpoint
 app.get('/test', (req, res) => {
+  console.log('Test endpoint hit'); // Debugging statement
   res.status(200).send({ message: 'Server is working correctly' });
 });
 
@@ -35,6 +36,8 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   try {
     const { name, email } = req.body;
     const filePath = req.file.path;
+
+    console.log('File upload request received:', { name, email, filePath }); // Debugging statement
 
     // Obtain the authenticated client
     const authClient = await auth.getClient();
@@ -66,6 +69,14 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     console.error('Error uploading file:', error);
     res.status(500).send({ message: 'Error uploading file', error: error.message });
   }
+});
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'build')));
+
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {

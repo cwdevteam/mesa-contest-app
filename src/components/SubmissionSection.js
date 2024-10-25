@@ -1,15 +1,14 @@
 // src/components/SubmissionSection.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import background from '../assets/background1.png'; // Adjust the path to your background image
+import background from '../assets/background2.png'; // Adjust the path to your background image
 import arrowImage from '../assets/arrow.png'; // Add the path to your arrow image
 import logo from '../assets/logo.png'; // Add the path to your logo
 
 function SubmissionSection() {
   const [file, setFile] = useState(null);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null); // State for success message
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -19,8 +18,6 @@ function SubmissionSection() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('name', name);
-    formData.append('email', email);
 
     try {
       const response = await axios.post('https://lit-atoll-20776-d2acf1580841.herokuapp.com/upload', formData, {
@@ -29,9 +26,12 @@ function SubmissionSection() {
         },
       });
       console.log('File uploaded successfully:', response.data);
+      setSuccess('File uploaded successfully!'); // Set success message
+      setError(null); // Clear any previous errors
     } catch (error) {
       console.error('Error uploading file:', error);
       setError(error.message);
+      setSuccess(null); // Clear any previous success messages
     }
   };
 
@@ -63,20 +63,6 @@ function SubmissionSection() {
             onChange={handleFileChange}
             className="w-full px-4 py-2 border border-gray-300 text-lg text-gray-700 rounded-lg"
           />
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name"
-            className="w-full px-4 py-2 border border-gray-300 text-lg text-gray-700 rounded-lg"
-          />
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            className="w-full px-4 py-2 border border-gray-300 text-lg text-gray-700 rounded-lg"
-          />
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
@@ -86,6 +72,7 @@ function SubmissionSection() {
         </form>
 
         {error && <p className="mt-4 text-red-500">{error}</p>}
+        {success && <p className="mt-4 text-green-500">{success}</p>} {/* Display success message */}
       </div>
 
       {/* Bottom Text and Arrow */}

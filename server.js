@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from the frontend running on localhost:3000
+app.use(cors({ origin: 'https://mesa-contest-app.ue.r.appspot.com' })); // Allow requests from the frontend running on localhost:3000
 app.use(express.json());
 
 // Configure Multer for file uploads

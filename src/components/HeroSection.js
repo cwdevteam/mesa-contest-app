@@ -25,21 +25,6 @@ function HeroSection() {
         <img src={logo} alt="Logo" className="h-16" />
       </div>
 
-      {/* Vertical Sidebar with Added Space */}
-      <div className="absolute top-64 left-10 bottom-24 flex">
-        <div className="flex flex-col items-center justify-between h-full space-y-12">
-          <div className="text-red-500 text-lg font-bold transform -rotate-90 origin-left">
-            Visión
-          </div>
-          <div className="text-red-500 text-lg font-bold transform -rotate-90 origin-left">
-            Prerrequisitos
-          </div>
-          <div className="text-red-500 text-lg font-bold transform -rotate-90 origin-left">
-            Drop your Demo
-          </div>
-        </div>
-      </div>
-
       {/* Main Content */}
       <div className="relative text-center px-4 flex flex-col items-center">
         <div className="flex items-center">
